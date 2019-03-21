@@ -21,7 +21,6 @@ class UnitTest {
     void shouldReturnEquivalentValueOfFeetInMiliMeter() {
         BigDecimal actual = Unit.FEET.convertToBaseUnit(BigDecimal.valueOf(1.0));
         BigDecimal expected = BigDecimal.valueOf(300.0);
-        System.out.println(actual);
         assertTrue(expected.compareTo(actual) == 0);
     }
 

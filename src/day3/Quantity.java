@@ -14,12 +14,16 @@ class Quantity {
     @Override
     public boolean equals(Object otherQuantity) {
         if (this == otherQuantity) return true;
-        if (!(otherQuantity instanceof Quantity) || this.getClass() != otherQuantity.getClass()) return false;
+        if (this.getClass() != otherQuantity.getClass()) return false;
         Quantity quantity = (Quantity) otherQuantity;
-        if(!this.unit.isSameType(quantity.unit)) return false;
+        if (!this.unit.isSameType(quantity.unit)) return false;
         BigDecimal valueOfMainQuantity = this.unit.convertToBaseUnit(this.value);
         BigDecimal valueOfGivenQuantity = quantity.unit.convertToBaseUnit(quantity.value);
         return valueOfMainQuantity.compareTo(valueOfGivenQuantity) == 0;
     }
 
+    Quantity add(Quantity quantity) {
+        BigDecimal addedValue = quantity.value.add(this.value);
+        return new Quantity(addedValue.doubleValue(), this.unit);
+    }
 }
