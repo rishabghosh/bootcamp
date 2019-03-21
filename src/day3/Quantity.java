@@ -15,15 +15,19 @@ class Quantity {
     public boolean equals(Object otherQuantity) {
         if (this == otherQuantity) return true;
         if (this.getClass() != otherQuantity.getClass()) return false;
+
         Quantity quantity = (Quantity) otherQuantity;
         if (!this.unit.isSameType(quantity.unit)) return false;
+
         BigDecimal valueOfMainQuantity = this.unit.convertToBaseUnit(this.value);
         BigDecimal valueOfGivenQuantity = quantity.unit.convertToBaseUnit(quantity.value);
+
         int comparedValue = valueOfMainQuantity.compareTo(valueOfGivenQuantity);
         return comparedValue == 0;
     }
 
-    Quantity add(Quantity quantity) {
+    Quantity add(Quantity quantity) throws InvalidUnitTypeException {
+        if (!this.unit.isSameType(quantity.unit)) throw new InvalidUnitTypeException();
         BigDecimal addedValue = quantity.value.add(this.value);
         return new Quantity(addedValue.doubleValue(), this.unit);
     }

@@ -42,9 +42,16 @@ class QuantityTest {
     }
 
     @Test
-    void shouldAddTwoAndTwoInches() {
+    void shouldAddTwoAndTwoInches() throws InvalidUnitTypeException {
         Quantity twoInch = new Quantity(2, Unit.INCH);
         Quantity fourInch = new Quantity(4, Unit.INCH);
         assertEquals(fourInch, twoInch.add(twoInch));
+    }
+
+    @Test
+    void shouldThrowInvalidUnitTypeExceptionForDissimilarTypeOfUnit() {
+        Quantity twoInch = new Quantity(2, Unit.INCH);
+        Quantity fourGallons = new Quantity(4, Unit.GALLON);
+        assertThrows(InvalidUnitTypeException.class, ()-> twoInch.add(fourGallons));
     }
 }
