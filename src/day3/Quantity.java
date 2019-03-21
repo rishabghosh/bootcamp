@@ -19,7 +19,8 @@ class Quantity {
         if (!this.unit.isSameType(quantity.unit)) return false;
         BigDecimal valueOfMainQuantity = this.unit.convertToBaseUnit(this.value);
         BigDecimal valueOfGivenQuantity = quantity.unit.convertToBaseUnit(quantity.value);
-        return valueOfMainQuantity.compareTo(valueOfGivenQuantity) == 0;
+        int comparedValue = valueOfMainQuantity.compareTo(valueOfGivenQuantity);
+        return comparedValue == 0;
     }
 
     Quantity add(Quantity quantity) {
