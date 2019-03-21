@@ -9,17 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UnitTest {
     @Test
-    @DisplayName("should convert inches to mm")
+    @DisplayName("should convert inches to MM")
     void shouldReturnEquivalentValueOfInchesInMiliMeter() {
-        BigDecimal actual = Unit.inch.convertToMM(BigDecimal.valueOf(1.0));
+        BigDecimal actual = Unit.INCH.convertToBaseUnit(BigDecimal.valueOf(1.0));
         BigDecimal expected = BigDecimal.valueOf(25.0);
         assertTrue(expected.compareTo(actual) == 0);
     }
 
     @Test
-    @DisplayName("should convert feet to mm")
+    @DisplayName("should convert FEET to MM")
     void shouldReturnEquivalentValueOfFeetInMiliMeter() {
-        BigDecimal actual = Unit.feet.convertToMM(BigDecimal.valueOf(1.0));
+        BigDecimal actual = Unit.FEET.convertToBaseUnit(BigDecimal.valueOf(1.0));
         BigDecimal expected = BigDecimal.valueOf(300.0);
         System.out.println(actual);
         assertTrue(expected.compareTo(actual) == 0);

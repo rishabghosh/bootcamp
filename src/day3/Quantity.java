@@ -11,9 +11,15 @@ class Quantity {
         this.unit = unit;
     }
 
-    boolean isEqual(Quantity quantity) {
-        BigDecimal valueOfMainQuantity = this.unit.convertToMM(this.value);
-        BigDecimal valueOfGivenQuantity = quantity.unit.convertToMM(quantity.value);
+    @Override
+    public boolean equals(Object otherQuantity) {
+        if (this == otherQuantity) return true;
+        if (!(otherQuantity instanceof Quantity) || this.getClass() != otherQuantity.getClass()) return false;
+        Quantity quantity = (Quantity) otherQuantity;
+        if(!this.unit.isSameType(quantity.unit)) return false;
+        BigDecimal valueOfMainQuantity = this.unit.convertToBaseUnit(this.value);
+        BigDecimal valueOfGivenQuantity = quantity.unit.convertToBaseUnit(quantity.value);
         return valueOfMainQuantity.compareTo(valueOfGivenQuantity) == 0;
     }
+
 }
