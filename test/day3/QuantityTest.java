@@ -54,4 +54,23 @@ class QuantityTest {
         Quantity fourGallons = new Quantity(4, Unit.GALLON);
         assertThrows(InvalidUnitTypeException.class, ()-> twoInch.add(fourGallons));
     }
+
+    @Test
+    void shouldReturnThreeInchForTheAdditionOfTwoInchAndTwoAndHalfCentiMeter() throws InvalidUnitTypeException {
+        Quantity twoInch = new Quantity(2, Unit.INCH);
+        Quantity twoAndHalfCentiMeter = new Quantity(2.5, Unit.CM);
+        Quantity expected = new Quantity(3, Unit.INCH);
+        Quantity actual = twoInch.add(twoAndHalfCentiMeter);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldReturn24InchesForTheAdditionOf1FeetAnd12Inches() throws InvalidUnitTypeException {
+
+        Quantity oneFeet = new Quantity(1, Unit.FEET);
+        Quantity twelveInches = new Quantity(12, Unit.INCH);
+        Quantity expected = new Quantity(24, Unit.INCH);
+        Quantity actual = oneFeet.add(twelveInches);
+        assertEquals(expected, actual);
+    }
 }

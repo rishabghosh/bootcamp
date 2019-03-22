@@ -26,7 +26,12 @@ class Unit {
         return value.multiply(this.ratio);
     }
 
-    boolean isSameType(Unit unit) {
-        return this.type.equals(unit.type);
+    boolean isNotSameType(Unit unit) {
+        return !this.type.equals(unit.type);
+    }
+
+    BigDecimal convertTo(BigDecimal value, Unit unit){
+        BigDecimal baseUnitValue = this.convertToBaseUnit(value);
+        return  baseUnitValue.divide(unit.ratio);
     }
 }
