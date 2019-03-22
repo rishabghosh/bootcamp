@@ -17,7 +17,6 @@ class Quantity {
         if (this.getClass() != otherQuantity.getClass()) return false;
 
         Quantity quantity = (Quantity) otherQuantity;
-        if (this.unit.isNotSameType(quantity.unit)) return false;
 
         BigDecimal valueOfMainQuantity = this.unit.convertToBaseUnit(this.value);
         BigDecimal valueOfGivenQuantity = quantity.unit.convertToBaseUnit(quantity.value);
@@ -27,8 +26,7 @@ class Quantity {
     }
 
     Quantity add(Quantity quantity) throws InvalidUnitTypeException {
-        if (this.unit.isNotSameType(quantity.unit)) throw new InvalidUnitTypeException();
-        System.out.println("still working");
+        if(this.unit.isNotSameType(quantity.unit)) throw new InvalidUnitTypeException();
         BigDecimal quantityInStandardUnit = quantity.unit.convertToStandardUnit(quantity.value);
         BigDecimal currentQuantityInStandardUnit = this.unit.convertToStandardUnit(this.value);
         BigDecimal addedValue = quantityInStandardUnit.add(currentQuantityInStandardUnit);

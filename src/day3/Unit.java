@@ -4,52 +4,47 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-class Unit {
-    private final BigDecimal ratio;
-    private final Object type;
+abstract class Unit {
+//    private final BigDecimal ratio;
+//    public Object type;
+//
+//    private static final Object LENGTH = new Object();
+//    private static final Object VOLUME = new Object();
+//
+//    static final Unit INCH = new Unit(25, LENGTH);
+//    static final Unit MM = new Unit(1, LENGTH);
+//    static final Unit FEET = new Unit(300, LENGTH);
+//    static final Unit CM = new Unit(10, LENGTH);
+//
+//    static final Unit GALLON = new Unit(3780, VOLUME);
+//    static final Unit LITRE = new Unit(1000, VOLUME);
+//
+//    private static Map<Object, Unit> standardUnits = new HashMap<>();
 
-    private static final Object LENGTH = new Object();
-    private static final Object VOLUME = new Object();
+//    static {
+//        standardUnits.put(LENGTH, Unit.INCH);
+//        standardUnits.put(VOLUME, Unit.LITRE);
+//    }
+//
+//    protected Unit(double ratio, Object type) {
+//        this.type = type;
+//        this.ratio = BigDecimal.valueOf(ratio);
+//    }
 
+    abstract BigDecimal convertToBaseUnit(BigDecimal value);
 
-    static final Unit INCH = new Unit(25, LENGTH);
-    static final Unit MM = new Unit(1, LENGTH);
-    static final Unit FEET = new Unit(300, LENGTH);
-    static final Unit CM = new Unit(10, LENGTH);
+//    abstract boolean isNotSameType(Unit unit);
 
-    static final Unit GALLON = new Unit(3780, VOLUME);
-    static final Unit LITRE = new Unit(1000, VOLUME);
+    abstract Unit getStandardUnit();
 
-    private static Map<Object, Unit> standardUnits = new HashMap<>();
+//    abstract Unit getUnit();
 
-    static {
-        standardUnits.put(LENGTH, Unit.INCH);
-        standardUnits.put(VOLUME, Unit.LITRE);
-    }
+    abstract BigDecimal convertToStandardUnit(BigDecimal value);
+//    {
+//        BigDecimal baseUnitValue = this.convertToBaseUnit(value);
+//        return  baseUnitValue.divide(getStandardUnit().ratio);
+//    }
 
-    private Unit(double ratio, Object type) {
-        this.type = type;
-        this.ratio = BigDecimal.valueOf(ratio);
-    }
+    abstract boolean isNotSameType(Unit unit);
 
-    BigDecimal convertToBaseUnit(BigDecimal value) {
-        return value.multiply(this.ratio);
-    }
-
-    boolean isNotSameType(Unit unit) {
-        return !this.type.equals(unit.type);
-    }
-
-    Unit getStandardUnit(){
-        Object type = this.type;
-        System.out.println(type);
-        Unit unit = this.standardUnits.get(type);
-//        System.out.println(unit);
-        return unit;
-    }
-
-    BigDecimal convertToStandardUnit(BigDecimal value){
-        BigDecimal baseUnitValue = this.convertToBaseUnit(value);
-        return  baseUnitValue.divide(getStandardUnit().ratio);
-    }
 }
