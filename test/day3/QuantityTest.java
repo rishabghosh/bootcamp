@@ -73,4 +73,25 @@ class QuantityTest {
         Quantity actual = oneFeet.add(twelveInches);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void shouldCompare100CelsiusAnd212FahrenheitToBeEqual() {
+        Quantity twoHundredTwelveFahrenheit = new Quantity(212, TemperatureUnit.FAHRENHEIT);
+        Quantity hundredCelsius = new Quantity(100, TemperatureUnit.CELSIUS);
+        assertEquals(twoHundredTwelveFahrenheit, hundredCelsius);
+    }
+
+    @Test
+    void shouldCompareMinus40CelsiusAndMinus40FahrenheitToBeEqual() {
+        Quantity twoHundredTwelveFahrenheit = new Quantity(-40, TemperatureUnit.FAHRENHEIT);
+        Quantity hundredCelsius = new Quantity(-40, TemperatureUnit.CELSIUS);
+        assertEquals(twoHundredTwelveFahrenheit, hundredCelsius);
+    }
+
+    @Test
+    void shouldCompare0CelsiusAnd32FahrenheitToBeEqual() {
+        Quantity twoHundredTwelveFahrenheit = new Quantity(32, TemperatureUnit.FAHRENHEIT);
+        Quantity hundredCelsius = new Quantity(0, TemperatureUnit.CELSIUS);
+        assertEquals(twoHundredTwelveFahrenheit, hundredCelsius);
+    }
 }

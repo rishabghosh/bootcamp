@@ -24,16 +24,17 @@ public class TemperatureUnit extends Unit {
 
     @Override
     Unit getStandardUnit() {
-        return null;
+        return CELSIUS;
     }
 
     @Override
     BigDecimal convertToStandardUnit(BigDecimal value) {
-        return null;
+        BigDecimal withoutScale = value.subtract(this.scale);
+        return withoutScale.divide(this.ratio);
     }
 
     @Override
     boolean isNotSameType(Unit unit) {
-        return false;
+        return !(unit instanceof TemperatureUnit);
     }
 }
