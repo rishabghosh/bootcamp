@@ -66,7 +66,6 @@ class QuantityTest {
 
     @Test
     void shouldReturn24InchesForTheAdditionOf1FeetAnd12Inches() throws InvalidUnitTypeException {
-
         Quantity oneFeet = new Quantity(1, Unit.FEET);
         Quantity twelveInches = new Quantity(12, Unit.INCH);
         Quantity expected = new Quantity(24, Unit.INCH);

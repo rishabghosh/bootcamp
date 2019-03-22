@@ -28,9 +28,11 @@ class Quantity {
 
     Quantity add(Quantity quantity) throws InvalidUnitTypeException {
         if (this.unit.isNotSameType(quantity.unit)) throw new InvalidUnitTypeException();
-        BigDecimal quantityInInch = quantity.unit.convertTo(quantity.value, Unit.INCH);
-        BigDecimal currentQuantityInInch = this.unit.convertTo(this.value, Unit.INCH);
-        BigDecimal addedValue = quantityInInch.add(currentQuantityInInch);
-        return new Quantity(addedValue.doubleValue(), Unit.INCH);
+        System.out.println("still working");
+        BigDecimal quantityInStandardUnit = quantity.unit.convertToStandardUnit(quantity.value);
+        BigDecimal currentQuantityInStandardUnit = this.unit.convertToStandardUnit(this.value);
+        BigDecimal addedValue = quantityInStandardUnit.add(currentQuantityInStandardUnit);
+        Unit standardUnit = this.unit.getStandardUnit();
+        return new Quantity(addedValue.doubleValue(), standardUnit);
     }
 }
