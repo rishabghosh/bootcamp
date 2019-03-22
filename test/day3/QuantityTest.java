@@ -53,7 +53,6 @@ class QuantityTest {
     void shouldThrowInvalidUnitTypeExceptionForDissimilarTypeOfUnit() throws InvalidUnitTypeException {
         Quantity twoInch = new Quantity(2, LengthUnit.INCH);
         Quantity fourGallons = new Quantity(4, VolumeUnit.GALLON);
-//        System.out.println(twoInch.add(fourGallons));
         assertThrows(InvalidUnitTypeException.class, ()-> twoInch.add(fourGallons));
     }
 

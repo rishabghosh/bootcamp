@@ -2,7 +2,7 @@ package day3;
 
 import java.math.BigDecimal;
 
-public class LengthUnit extends Unit {
+class LengthUnit extends Unit {
     static final LengthUnit INCH = new LengthUnit(25);
     static final LengthUnit MM = new LengthUnit(1);
     static final LengthUnit FEET = new LengthUnit(300);
@@ -22,8 +22,6 @@ public class LengthUnit extends Unit {
     Unit getStandardUnit() {
         return INCH;
     }
-
-
 
     @Override
     BigDecimal convertToStandardUnit(BigDecimal value) {
