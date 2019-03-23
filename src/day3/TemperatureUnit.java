@@ -10,7 +10,7 @@ public class TemperatureUnit extends Unit {
     private final BigDecimal scale;
     private final BigDecimal ratio;
 
-    TemperatureUnit(double ratio, double scale) {
+    private TemperatureUnit(double ratio, double scale) {
         this.ratio = BigDecimal.valueOf(ratio);
         this.scale = BigDecimal.valueOf(scale);
     }
