@@ -7,13 +7,13 @@ public class Matrix {
     private int numberOfRows;
     private int numberOfColumns;
 
-    public Matrix(int numberOfRows, int numberOfColumns) {
+    Matrix(int numberOfRows, int numberOfColumns) {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         this.matrix = new int[numberOfRows][numberOfColumns];
     }
 
-    public Matrix(int[][] data) {
+    Matrix(int[][] data) {
         this.numberOfRows = data.length;
         this.numberOfColumns = data[0].length;
 
@@ -22,6 +22,33 @@ public class Matrix {
             System.arraycopy(data[index], 0, this.matrix[index], 0, this.numberOfColumns);
         }
     }
+
+    /**
+     * this method is breaking encapsulation and of no use should be removed later
+     * @param rowNumber
+     * @param column
+     * @return
+     */
+
+    Matrix setColumn(int rowNumber, int[] column) {
+        this.matrix[rowNumber] = column;
+        return new Matrix(this.matrix);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public boolean equals(Object obj) {
@@ -36,8 +63,10 @@ public class Matrix {
         return Arrays.deepToString(this.matrix);
     }
 
-    public Matrix setColumn(int rowNumber, int[] column) {
-        this.matrix[rowNumber] = column;
+    Matrix switchRows(int row1, int row2) {
+        int[] temp = this.matrix[row1];
+        this.matrix[row1] = this.matrix[row2];
+        this.matrix[row2] = temp;
         return new Matrix(this.matrix);
     }
 }
