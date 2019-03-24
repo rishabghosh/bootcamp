@@ -25,6 +25,7 @@ public class Matrix {
 
     /**
      * this method is breaking encapsulation and of no use should be removed later
+     *
      * @param rowNumber
      * @param column
      * @return
@@ -35,19 +36,24 @@ public class Matrix {
         return new Matrix(this.matrix);
     }
 
+    Matrix switchRows(int row1, int row2) {
+        int[] temp = this.matrix[row1];
+        this.matrix[row1] = this.matrix[row2];
+        this.matrix[row2] = temp;
+        return new Matrix(this.matrix);
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
+    public Matrix add(Matrix matrix) {
+        int numberOfRows = matrix.numberOfRows;
+        int numberOfColumns = matrix.numberOfColumns;
+        for (int rowIndex = 0; rowIndex < matrix.numberOfRows; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < matrix.numberOfColumns; columnIndex++) {
+                this.matrix[rowIndex][columnIndex] += matrix.matrix[rowIndex][columnIndex];
+            }
+        }
+        return new Matrix(this.matrix);
+    }
 
 
     @Override
@@ -63,10 +69,5 @@ public class Matrix {
         return Arrays.deepToString(this.matrix);
     }
 
-    Matrix switchRows(int row1, int row2) {
-        int[] temp = this.matrix[row1];
-        this.matrix[row1] = this.matrix[row2];
-        this.matrix[row2] = temp;
-        return new Matrix(this.matrix);
-    }
+
 }
