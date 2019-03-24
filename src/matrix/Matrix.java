@@ -23,18 +23,18 @@ public class Matrix {
 
 
     static Matrix createNullMatrix(int M, int N) throws InvalidDimensionException {
-        if (M <1 || N <1) throw new InvalidDimensionException();
+        if (M < 1 || N < 1) throw new InvalidDimensionException();
         return new Matrix(M, N);
     }
 
     static Matrix create(int[][] sourceArray) throws InvalidDimensionException {
         int M = sourceArray.length;
         int N = sourceArray[0].length;
-        if(N < 1) throw new InvalidDimensionException();
+        if (N < 1) throw new InvalidDimensionException();
         return new Matrix(sourceArray);
     }
 
-    private int[][] buildMatrix(int[][] sourceArray){
+    private int[][] buildMatrix(int[][] sourceArray) {
         int[][] matrixBody = new int[this.M][this.N];
         for (int rowIndex = 0; rowIndex < this.M; rowIndex++) {
             System.arraycopy(sourceArray[rowIndex], 0, matrixBody[rowIndex], 0, this.N);
@@ -51,12 +51,7 @@ public class Matrix {
 
 
     Matrix add(Matrix matrix) throws IncompatibleMatricesException {
-        int numberOfRows = matrix.M;
-        int numberOfColumns = matrix.N;
-
-        if(doesNotHaveSameStructure(numberOfRows, numberOfColumns)) {
-            throw new IncompatibleMatricesException();
-        }
+        if (isIncompatible(matrix.M, matrix.N)) throw new IncompatibleMatricesException();
 
         for (int rowIndex = 0; rowIndex < matrix.M; rowIndex++) {
             for (int columnIndex = 0; columnIndex < matrix.N; columnIndex++) {
@@ -66,10 +61,9 @@ public class Matrix {
         return new Matrix(this.body);
     }
 
-    private boolean doesNotHaveSameStructure(int numberOfRows, int numberOfColumns){
-        return this.M != numberOfRows || this.N != numberOfColumns;
+    private boolean isIncompatible(int rowSize, int columnSize) {
+        return this.M != rowSize || this.N != columnSize;
     }
-
 
 
     @Override
@@ -85,7 +79,7 @@ public class Matrix {
         return Arrays.deepToString(this.body);
     }
 
-    Matrix multiplyWithConstant(int constant) {
+    Matrix multiplyByConstant(int constant) {
         for (int rowIndex = 0; rowIndex < this.M; rowIndex++) {
             for (int columnIndex = 0; columnIndex < this.N; columnIndex++) {
                 this.body[rowIndex][columnIndex] *= constant;
@@ -94,12 +88,13 @@ public class Matrix {
         return new Matrix(this.body);
     }
 
-    private Matrix multiplyMatrixWithConstant(Matrix matrix, int constant) {
-        Matrix newMatrix = new Matrix(matrix.M, matrix.N);
-        for (int index = 0; index < matrix.M; index++) {
-            System.arraycopy(matrix.body[index], 0, newMatrix.body[index], 0, matrix.N);
-        }
+    private Matrix clone(Matrix matrix) {
+        int[][] body = buildMatrix(matrix.body);
+        return new Matrix(body);
+    }
 
+    private Matrix multiplyByConstant(Matrix matrix, int constant) {
+        Matrix newMatrix = this.clone(matrix);
         for (int rowIndex = 0; rowIndex < matrix.M; rowIndex++) {
             for (int columnIndex = 0; columnIndex < matrix.N; columnIndex++) {
                 newMatrix.body[rowIndex][columnIndex] *= constant;
@@ -108,10 +103,31 @@ public class Matrix {
         return newMatrix;
     }
 
-
-
     Matrix subtract(Matrix matrix) throws IncompatibleMatricesException {
-        Matrix modifiedMatrix = this.multiplyMatrixWithConstant(matrix, -1);
+        Matrix modifiedMatrix = this.multiplyByConstant(matrix, -1);
         return this.add(modifiedMatrix);
     }
+
+    Matrix multiply(Matrix matrix) {
+        int[][] body = new int[this.M][this.M];
+        Matrix resultMatrix = new Matrix(body);
+
+        int rowIndex = 0;
+        while (rowIndex < this.M) {
+            int resultCol = 0;
+
+            while (resultCol < resultMatrix.M) {
+                int colIndex = 0;
+
+                while (colIndex < this.N) {
+                    resultMatrix.body[rowIndex][resultCol] += this.body[rowIndex][colIndex] * matrix.body[colIndex][resultCol];
+                    colIndex++;
+                }
+                resultCol++;
+            }
+            rowIndex++;
+        }
+        return resultMatrix;
+    }
+
 }

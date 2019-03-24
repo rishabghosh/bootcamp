@@ -19,7 +19,7 @@ class matrixTest {
 
     @Test
     void createMethodShouldThrowExceptionIfSourceArrayNIsLessThan1() {
-        assertThrows(InvalidDimensionException.class, ()-> Matrix.create(new int[1][0]));
+        assertThrows(InvalidDimensionException.class, () -> Matrix.create(new int[1][0]));
     }
 
     @Test
@@ -77,7 +77,7 @@ class matrixTest {
         int[][] ints = new int[][]{new int[]{1, 2, 3}, new int[]{4, 5, 6}};
         int[][] ints2 = new int[][]{new int[]{2, 4, 6}, new int[]{8, 10, 12}};
         Matrix matrix = Matrix.create(ints);
-        Matrix actual = matrix.multiplyWithConstant(2);
+        Matrix actual = matrix.multiplyByConstant(2);
         Matrix expected = Matrix.create(ints2);
         assertEquals(expected, actual);
     }
@@ -92,6 +92,34 @@ class matrixTest {
         Matrix matrix2 = Matrix.create(ints2);
 
         Matrix actual = matrix2.subtract(matrix1);
+        Matrix expected = Matrix.create(ints3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void multiplyMethodShouldMultiplyCurrentMatrixWithGivenMatrix() throws InvalidDimensionException {
+        int[][] ints = new int[][]{new int[]{1, 2}, new int[]{3, 4}};
+        int[][] ints2 = new int[][]{new int[]{5, 6}, new int[]{7, 8}};
+        int[][] ints3 = {new int[]{19, 22}, new int[]{43, 50}};
+
+        Matrix matrix1 = Matrix.create(ints);
+        Matrix matrix2 = Matrix.create(ints2);
+
+        Matrix actual = matrix1.multiply(matrix2);
+        Matrix expected = Matrix.create(ints3);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void multiplyMethodShouldMultiplyCurrentMatrixWithGivenMatrix3By3() throws InvalidDimensionException {
+        int[][] ints = new int[][]{new int[]{1, 2, 3}, new int[]{4, 5, 6}};
+        int[][] ints2 = new int[][]{new int[]{7, 8}, new int[]{9, 10}, new int[]{11, 12}};
+        int[][] ints3 = {new int[]{58, 64}, new int[]{139, 154}};
+
+        Matrix matrix1 = Matrix.create(ints);
+        Matrix matrix2 = Matrix.create(ints2);
+
+        Matrix actual = matrix1.multiply(matrix2);
         Matrix expected = Matrix.create(ints3);
         assertEquals(expected, actual);
     }
