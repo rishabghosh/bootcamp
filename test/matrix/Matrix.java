@@ -13,13 +13,13 @@ public class Matrix {
         this.matrix = new int[numberOfRows][numberOfColumns];
     }
 
-    Matrix(int[][] data) {
-        this.numberOfRows = data.length;
-        this.numberOfColumns = data[0].length;
+    Matrix(int[][] ints) {
+        this.numberOfRows = ints.length;
+        this.numberOfColumns = ints[0].length;
 
         this.matrix = new int[this.numberOfRows][this.numberOfColumns];
         for (int index = 0; index < this.numberOfRows; index++) {
-            System.arraycopy(data[index], 0, this.matrix[index], 0, this.numberOfColumns);
+            System.arraycopy(ints[index], 0, this.matrix[index], 0, this.numberOfColumns);
         }
     }
 
@@ -31,7 +31,7 @@ public class Matrix {
     }
 
 
-    public Matrix add(Matrix matrix) throws IncompatibleMatricesException {
+    Matrix add(Matrix matrix) throws IncompatibleMatricesException {
         int numberOfRows = matrix.numberOfRows;
         int numberOfColumns = matrix.numberOfColumns;
 
@@ -66,5 +66,33 @@ public class Matrix {
         return Arrays.deepToString(this.matrix);
     }
 
+    Matrix multiplyWithConstant(int constant) {
+        for (int rowIndex = 0; rowIndex < this.numberOfRows; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < this.numberOfColumns; columnIndex++) {
+                this.matrix[rowIndex][columnIndex] *= constant;
+            }
+        }
+        return new Matrix(this.matrix);
+    }
 
+    private Matrix multiplyMatrixWithConstant(Matrix matrix, int constant) {
+        Matrix newMatrix = new Matrix(matrix.numberOfRows, matrix.numberOfColumns);
+        for (int index = 0; index < matrix.numberOfRows; index++) {
+            System.arraycopy(matrix.matrix[index], 0, newMatrix.matrix[index], 0, matrix.numberOfColumns);
+        }
+
+        for (int rowIndex = 0; rowIndex < matrix.numberOfRows; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < matrix.numberOfColumns; columnIndex++) {
+                newMatrix.matrix[rowIndex][columnIndex] *= constant;
+            }
+        }
+        return newMatrix;
+    }
+
+
+
+    Matrix subtract(Matrix matrix) throws IncompatibleMatricesException {
+        Matrix modifiedMatrix = this.multiplyMatrixWithConstant(matrix, -1);
+        return this.add(modifiedMatrix);
+    }
 }
