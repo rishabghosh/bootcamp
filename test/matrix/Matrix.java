@@ -23,19 +23,6 @@ public class Matrix {
         }
     }
 
-    /**
-     * this method is breaking encapsulation and of no use should be removed later
-     *
-     * @param rowNumber
-     * @param column
-     * @return
-     */
-
-    Matrix setColumn(int rowNumber, int[] column) {
-        this.matrix[rowNumber] = column;
-        return new Matrix(this.matrix);
-    }
-
     Matrix switchRows(int row1, int row2) {
         int[] temp = this.matrix[row1];
         this.matrix[row1] = this.matrix[row2];
@@ -44,9 +31,14 @@ public class Matrix {
     }
 
 
-    public Matrix add(Matrix matrix) {
+    public Matrix add(Matrix matrix) throws IncompatibleMatricesException {
         int numberOfRows = matrix.numberOfRows;
         int numberOfColumns = matrix.numberOfColumns;
+
+        if(doesNotHaveSameStructure(numberOfRows, numberOfColumns)) {
+            throw new IncompatibleMatricesException();
+        }
+
         for (int rowIndex = 0; rowIndex < matrix.numberOfRows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < matrix.numberOfColumns; columnIndex++) {
                 this.matrix[rowIndex][columnIndex] += matrix.matrix[rowIndex][columnIndex];
@@ -54,6 +46,11 @@ public class Matrix {
         }
         return new Matrix(this.matrix);
     }
+
+    private boolean doesNotHaveSameStructure(int numberOfRows, int numberOfColumns){
+        return this.numberOfRows != numberOfRows || this.numberOfColumns != numberOfColumns;
+    }
+
 
 
     @Override
