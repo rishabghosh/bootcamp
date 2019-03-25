@@ -9,7 +9,7 @@ public class Log {
     }
 
     String getLog() {
-        return message;
+        return this.message;
     }
 
     @Override
