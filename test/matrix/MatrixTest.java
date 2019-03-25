@@ -3,11 +3,10 @@ package matrix;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class matrixTest {
+class MatrixTest {
 
     private int[][] twoByTwoArray;
     private int[][] threeByThreeArray;

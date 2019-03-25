@@ -105,15 +105,10 @@ public class Matrix {
     }
 
     Matrix multiplyByConstant(int constant) {
-        for (int rowIndex = 0; rowIndex < this.M; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < this.N; columnIndex++) {
-                this.body[rowIndex][columnIndex] *= constant;
-            }
-        }
+        Matrix newMatrix = multiplyByConstant(this, constant);
+        this.body = newMatrix.body;
         return new Matrix(this.body);
     }
-
-
 
     Matrix subtract(Matrix matrix) throws IncompatibleMatricesException {
         Matrix modifiedMatrix = this.multiplyByConstant(matrix, -1);
@@ -143,6 +138,5 @@ public class Matrix {
         this.body = resultMatrix.body;
         return resultMatrix;
     }
-
 
 }
