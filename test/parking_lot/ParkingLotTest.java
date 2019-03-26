@@ -16,34 +16,34 @@ class ParkingLotTest {
     @Test
     void shouldParkACarIfThereIsSpaceAvailable() throws ParkingLotFullException {
         ParkingLot parkingLot = new ParkingLot(3, attendant);
-        assertTrue(parkingLot.park(new Car()));
+        assertTrue(parkingLot.park(new Car(1)));
     }
 
     @Test
     void shouldThrowExceptionIfNoSpaceIsAvailable() throws ParkingLotFullException {
         ParkingLot parkingLot = new ParkingLot(3, attendant);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        assertThrows(ParkingLotFullException.class, () -> parkingLot.park(new Car()));
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        parkingLot.park(new Car(3));
+        assertThrows(ParkingLotFullException.class, () -> parkingLot.park(new Car(4)));
     }
 
     @Test
     void shouldReturnTrueIfACarIsUnparked() throws ParkingLotFullException {
         ParkingLot parkingLot = new ParkingLot(3, attendant);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        assertTrue(parkingLot.unpark());
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        parkingLot.park(new Car(3));
+        assertTrue(parkingLot.unpark(1));
     }
 
     @Test
     void shouldNotifyTheAttendentWhenParkingLotIsFull() throws ParkingLotFullException {
         mockedAttendant mockedAttendent = new mockedAttendant();
         ParkingLot parkingLot = new ParkingLot(3, mockedAttendent);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        parkingLot.park(new Car(3));
         assertTrue(mockedAttendent.isNotifiedForFull);
     }
 
@@ -51,17 +51,17 @@ class ParkingLotTest {
     void shouldNotifyAttendantWhenParkingLotIsAvailable() throws ParkingLotFullException {
         mockedAttendant mockedattendant = new mockedAttendant();
         ParkingLot parkingLot = new ParkingLot(3, mockedattendant);
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.park(new Car());
-        parkingLot.unpark();
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        parkingLot.park(new Car(3));
+        parkingLot.unpark(2);
         assertTrue(mockedattendant.isNotifiedForAvailable);
     }
 
     @Test
     void shouldReturnFalseIfParkingLotIsEmpty() {
         ParkingLot parkingLot = new ParkingLot(3, attendant);
-        assertFalse(parkingLot.unpark());
+        assertFalse(parkingLot.unpark(1));
     }
 }
 

@@ -29,14 +29,17 @@ public class ParkingLot {
         return true;
     }
 
-    boolean unpark() {
+    boolean unpark(int id) {
         if (currentParkingPosition <= 0) {
             return false;
         }
-
         currentParkingPosition--;
-        this.cars[currentParkingPosition] = null;
-
+        for (int i = 0; i < this.cars.length; i++) {
+            if (cars[i].getId() == id) {
+                cars[i] = null;
+                break;
+            }
+        }
         if (currentParkingPosition == this.size - 1) {
             attendant.notifyWhenAvailable(this);
         }
