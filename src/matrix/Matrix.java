@@ -104,6 +104,8 @@ public class Matrix {
         return new Matrix(this.body);
     }
 
+
+
     Matrix multiplyByConstant(int constant) {
         Matrix newMatrix = multiplyByConstant(this, constant);
         this.body = newMatrix.body;
