@@ -1,33 +1,41 @@
 package parking_lot;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 class Attendant {
-    public boolean isNotifiedForThresholdLimit;
-    private List<ParkingLot> availableParkingLots;
-    private List<ParkingLot> unAvailableParkingLots;
+    private Map<String, ParkingLot> availableParkingLots;
+    private Map<String, ParkingLot> unAvailableParkingLots;
+    private Map<String, ParkingLot> totalParkingLots;
     private Assistant assistant;
 
     Attendant(Assistant assistant) {
-        this.availableParkingLots = new ArrayList<>();
-        this.unAvailableParkingLots = new ArrayList<>();
+        this.availableParkingLots = new HashMap<>();
+        this.unAvailableParkingLots = new HashMap<>();
+        this.totalParkingLots = new HashMap<>();
         this.assistant = assistant;
     }
 
     void addParkingLot(ParkingLot parkingLot) {
-        this.availableParkingLots.add(parkingLot);
+        this.availableParkingLots.put(parkingLot.getName(), parkingLot);
+        this.totalParkingLots.put(parkingLot.getName(), parkingLot);
     }
 
-    void notifyWhenFull(ParkingLot parkingLot) {
-        this.availableParkingLots.remove(parkingLot);
-        this.unAvailableParkingLots.add(parkingLot);
+    private ParkingLot getParkingLotByName(String name){
+        return this.totalParkingLots.get(name);
+    }
+
+    void notifyWhenFull(String nameOfParkingLot) {
+        ParkingLot parkingLot = getParkingLotByName(nameOfParkingLot);
+        this.availableParkingLots.remove(nameOfParkingLot);
+        this.unAvailableParkingLots.put(nameOfParkingLot, parkingLot);
         System.out.println("Parking is full");
     }
 
-    void notifyWhenAvailable(ParkingLot parkingLot) {
-        this.availableParkingLots.add(parkingLot);
-        this.unAvailableParkingLots.remove(parkingLot);
+    void notifyWhenAvailable(String nameOfParkingLot) {
+        ParkingLot parkingLot = getParkingLotByName(nameOfParkingLot);
+        this.availableParkingLots.put(nameOfParkingLot, parkingLot);
+        this.unAvailableParkingLots.remove(nameOfParkingLot);
         System.out.println("Parking is available");
     }
 
@@ -35,7 +43,7 @@ class Attendant {
         this.assistant.updateDisplay(name, noOfCars);
     }
 
-    void notifyForLessCars(ParkingLot parkingLot) {
-        System.out.println(parkingLot + "has less than 20% of cars");
+    void notifyForLessCars(String name) {
+        System.out.println(name + " has less than 20% of cars");
     }
 }

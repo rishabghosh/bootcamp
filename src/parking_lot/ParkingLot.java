@@ -18,20 +18,33 @@ public class ParkingLot {
         this.attendant = attendant;
     }
 
+    private ParkingLot(String name, int capacity, Attendant attendant, int currentParkingPosition, Car[] cars) {
+        this.name = name;
+        this.cars = cars;
+        this.currentParkingPosition = currentParkingPosition;
+        this.capacity = capacity;
+        this.attendant = attendant;
+    }
+
+    ParkingLot getAPI() {
+        Car[] newCars = new Car[this.cars.length];
+        System.arraycopy(this.cars, 0, newCars, 0, this.cars.length);
+        return new ParkingLot(this.name, this.capacity, this.attendant, this.currentParkingPosition, newCars);
+    }
+
     private boolean isBelowThreshold() {
         return this.currentParkingPosition <= this.capacity * THRESHOLD_RATIO;
     }
 
-
     boolean park(Car car) throws ParkingLotFullException {
-        if (isBelowThreshold()) attendant.notifyForLessCars(this);
+        if (isBelowThreshold()) attendant.notifyForLessCars(this.name);
 
-            if (this.currentParkingPosition > this.capacity - 1) {
-                throw new ParkingLotFullException();
-            }
+        if (this.currentParkingPosition > this.capacity - 1) {
+            throw new ParkingLotFullException();
+        }
 
         if (this.currentParkingPosition == this.capacity - 1) {
-            this.attendant.notifyWhenFull(this);
+            this.attendant.notifyWhenFull(this.name);
         }
 
         this.cars[currentParkingPosition] = car;
@@ -42,7 +55,7 @@ public class ParkingLot {
 
 
     boolean unPark(int id) {
-        if (isBelowThreshold()) attendant.notifyForLessCars(this);
+        if (isBelowThreshold()) attendant.notifyForLessCars(this.name);
 
         if (currentParkingPosition <= 0) {
             return false;
@@ -59,7 +72,7 @@ public class ParkingLot {
         }
 
         if (currentParkingPosition == this.capacity - 1) {
-            attendant.notifyWhenAvailable(this);
+            attendant.notifyWhenAvailable(this.name);
         }
 
         return true;
@@ -75,4 +88,7 @@ public class ParkingLot {
                 Arrays.equals(cars, that.cars);
     }
 
+    String getName() {
+        return this.name;
+    }
 }

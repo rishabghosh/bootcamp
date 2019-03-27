@@ -13,7 +13,6 @@ class ParkingLotTest {
     void setUp() {
         this.mockAttendant = new MockAttendant(new Assistant(Display.get()));
         parkingLot = new ParkingLot("P1", 3, mockAttendant);
-
     }
 
     @Test
@@ -86,12 +85,12 @@ class MockAttendant extends Attendant {
     }
 
     @Override
-    void notifyWhenFull(ParkingLot parkingLot) {
+    void notifyWhenFull(String nameOfParkingLot) {
         this.isNotifiedForFull = true;
     }
 
     @Override
-    void notifyWhenAvailable(ParkingLot parkingLot) {
+    void notifyWhenAvailable(String nameOfParkingLot) {
         this.isNotifiedForAvailable = true;
     }
 
@@ -101,7 +100,7 @@ class MockAttendant extends Attendant {
     }
 
     @Override
-    void notifyForLessCars(ParkingLot parkingLot) {
+    void notifyForLessCars(String nameOfParkingLot) {
         this.hasLesserCars = true;
     }
 }
