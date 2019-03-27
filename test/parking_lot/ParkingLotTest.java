@@ -6,22 +6,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParkingLotTest {
-    private Attendant attendant;
+    private MockAttendant mockAttendant;
+    private ParkingLot parkingLot;
 
     @BeforeEach
     void setUp() {
-        this.attendant = new Attendant(new Assistant(Display.get()));
+        this.mockAttendant = new MockAttendant(new Assistant(Display.get()));
+        parkingLot = new ParkingLot("P1", 3, mockAttendant);
+
     }
 
     @Test
     void shouldParkACarIfThereIsSpaceAvailable() throws ParkingLotFullException {
-        ParkingLot parkingLot = new ParkingLot("P1", 3, attendant);
         assertTrue(parkingLot.park(new Car(1)));
     }
 
     @Test
     void shouldThrowExceptionIfNoSpaceIsAvailable() throws ParkingLotFullException {
-        ParkingLot parkingLot = new ParkingLot("P1", 3, attendant);
         parkingLot.park(new Car(1));
         parkingLot.park(new Car(2));
         parkingLot.park(new Car(3));
@@ -30,7 +31,6 @@ class ParkingLotTest {
 
     @Test
     void shouldReturnTrueIfACarIsUnParked() throws ParkingLotFullException {
-        ParkingLot parkingLot = new ParkingLot("P1", 3, attendant);
         parkingLot.park(new Car(1));
         parkingLot.park(new Car(2));
         parkingLot.park(new Car(3));
@@ -39,60 +39,51 @@ class ParkingLotTest {
 
     @Test
     void shouldNotifyTheAttendantWhenParkingLotIsFull() throws ParkingLotFullException {
-        mockedAttendant mockedAttendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
-        ParkingLot parkingLot = new ParkingLot("P1", 3, mockedAttendant);
         parkingLot.park(new Car(1));
         parkingLot.park(new Car(2));
         parkingLot.park(new Car(3));
-        assertTrue(mockedAttendant.isNotifiedForFull);
+        assertTrue(mockAttendant.isNotifiedForFull);
     }
 
     @Test
     void shouldNotifyAttendantWhenParkingLotIsAvailable() throws ParkingLotFullException {
-        mockedAttendant mockedattendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
-        ParkingLot parkingLot = new ParkingLot("P1", 3, mockedattendant);
         parkingLot.park(new Car(1));
         parkingLot.park(new Car(2));
         parkingLot.park(new Car(3));
         parkingLot.unPark(1);
-        assertTrue(mockedattendant.isNotifiedForAvailable);
+        assertTrue(mockAttendant.isNotifiedForAvailable);
     }
 
     @Test
     void shouldReturnFalseIfParkingLotIsEmpty() {
-        ParkingLot parkingLot = new ParkingLot("P1", 3, attendant);
         assertFalse(parkingLot.unPark(1));
     }
 
     @Test
     void shouldNotifyAttendantToUpdateDisplayWhenCarIsParked() throws ParkingLotFullException {
-        mockedAttendant attendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
-        ParkingLot p1 = new ParkingLot("p1", 2, attendant);
-        p1.park(new Car(2));
-        assertTrue(attendant.isNotifiedForUpdatingDisplay);
+        parkingLot.park(new Car(2));
+        assertTrue(mockAttendant.isNotifiedForUpdatingDisplay);
     }
 
     @Test
     void attendantShouldGetNotifiedWhenTheTwentyPercentOfSizeIsLeftToPark() throws ParkingLotFullException {
-        mockedAttendant attendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
-        ParkingLot p1 = new ParkingLot("p1", 10, attendant);
-        p1.park(new Car(1));
-        p1.park(new Car(2));
-        assertTrue(attendant.hasLesserCars);
+        ParkingLot parkingLot = new ParkingLot("parkingLot", 10, mockAttendant);
+        parkingLot.park(new Car(1));
+        parkingLot.park(new Car(2));
+        assertTrue(mockAttendant.hasLesserCars);
     }
 }
 
 
-class mockedAttendant extends Attendant {
+class MockAttendant extends Attendant {
     boolean isNotifiedForFull;
     boolean isNotifiedForAvailable;
     boolean isNotifiedForUpdatingDisplay;
     boolean hasLesserCars;
 
-    mockedAttendant(Display display, Assistant assistant) {
+    MockAttendant(Assistant assistant) {
         super(assistant);
     }
-
 
     @Override
     void notifyWhenFull(ParkingLot parkingLot) {
