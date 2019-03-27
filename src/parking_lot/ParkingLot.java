@@ -8,6 +8,7 @@ public class ParkingLot {
     private int currentParkingPosition;
     private int capacity;
     private Attendant attendant;
+    private final double THERESHOLD_RATIO = 0.2;
 
     ParkingLot(String name, int capacity, Attendant attendant) {
         this.name = name;
@@ -17,15 +18,21 @@ public class ParkingLot {
         this.attendant = attendant;
     }
 
+    private boolean isBelowThreshold() {
+        return this.currentParkingPosition <= this.capacity * THERESHOLD_RATIO;
+    }
 
     boolean park(Car car) throws ParkingLotFullException {
-        if (this.currentParkingPosition > this.capacity - 1) {
-            throw new ParkingLotFullException();
-        }
+        if (isBelowThreshold()) attendant.notifyForLessCars(this);
+
+            if (this.currentParkingPosition > this.capacity - 1) {
+                throw new ParkingLotFullException();
+            }
 
         if (this.currentParkingPosition == this.capacity - 1) {
             this.attendant.notifyWhenFull(this);
         }
+
         this.cars[currentParkingPosition] = car;
         currentParkingPosition++;
         this.attendant.updateDisplay(this.name, this.currentParkingPosition);
@@ -34,6 +41,8 @@ public class ParkingLot {
 
 
     boolean unPark(int id) {
+        if (isBelowThreshold()) attendant.notifyForLessCars(this);
+
         if (currentParkingPosition <= 0) {
             return false;
         }

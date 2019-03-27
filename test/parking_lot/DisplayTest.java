@@ -1,6 +1,5 @@
 package parking_lot;
 
-import org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +8,7 @@ class DisplayTest {
     @Test
     void toStringMethodShouldReturnTheStatusOfParkingLots() throws ParkingLotFullException {
         Display display = Display.get();
-        Attendant attendant = new Attendant(display);
+        Attendant attendant = new Attendant(new Assistant(display));
         ParkingLot p1 = new ParkingLot("P1", 3, attendant);
         ParkingLot p2 = new ParkingLot("P2", 3, attendant);
         attendant.addParkingLot(p1);

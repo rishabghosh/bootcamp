@@ -10,7 +10,7 @@ class ParkingLotTest {
 
     @BeforeEach
     void setUp() {
-        this.attendant = new Attendant(Display.get());
+        this.attendant = new Attendant(new Assistant(Display.get()));
     }
 
     @Test
@@ -39,7 +39,7 @@ class ParkingLotTest {
 
     @Test
     void shouldNotifyTheAttendantWhenParkingLotIsFull() throws ParkingLotFullException {
-        mockedAttendant mockedAttendant = new mockedAttendant();
+        mockedAttendant mockedAttendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
         ParkingLot parkingLot = new ParkingLot("P1", 3, mockedAttendant);
         parkingLot.park(new Car(1));
         parkingLot.park(new Car(2));
@@ -49,7 +49,7 @@ class ParkingLotTest {
 
     @Test
     void shouldNotifyAttendantWhenParkingLotIsAvailable() throws ParkingLotFullException {
-        mockedAttendant mockedattendant = new mockedAttendant();
+        mockedAttendant mockedattendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
         ParkingLot parkingLot = new ParkingLot("P1", 3, mockedattendant);
         parkingLot.park(new Car(1));
         parkingLot.park(new Car(2));
@@ -66,10 +66,19 @@ class ParkingLotTest {
 
     @Test
     void shouldNotifyAttendantToUpdateDisplayWhenCarIsParked() throws ParkingLotFullException {
-        mockedAttendant attendant = new mockedAttendant();
+        mockedAttendant attendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
         ParkingLot p1 = new ParkingLot("p1", 2, attendant);
         p1.park(new Car(2));
         assertTrue(attendant.isNotifiedForUpdatingDisplay);
+    }
+
+    @Test
+    void attendantShouldGetNotifiedWhenTheTwentyPercentOfSizeIsLeftToPark() throws ParkingLotFullException {
+        mockedAttendant attendant = new mockedAttendant(Display.get(), new Assistant(Display.get()));
+        ParkingLot p1 = new ParkingLot("p1", 10, attendant);
+        p1.park(new Car(1));
+        p1.park(new Car(2));
+        assertTrue(attendant.hasLesserCars);
     }
 }
 
@@ -78,10 +87,12 @@ class mockedAttendant extends Attendant {
     boolean isNotifiedForFull;
     boolean isNotifiedForAvailable;
     boolean isNotifiedForUpdatingDisplay;
+    boolean hasLesserCars;
 
-    mockedAttendant() {
-        super(Display.get());
+    mockedAttendant(Display display, Assistant assistant) {
+        super(assistant);
     }
+
 
     @Override
     void notifyWhenFull(ParkingLot parkingLot) {
@@ -96,5 +107,10 @@ class mockedAttendant extends Attendant {
     @Override
     void updateDisplay(String name, int noOfCars) {
         isNotifiedForUpdatingDisplay = true;
+    }
+
+    @Override
+    void notifyForLessCars(ParkingLot parkingLot) {
+        this.hasLesserCars = true;
     }
 }

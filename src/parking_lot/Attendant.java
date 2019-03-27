@@ -3,15 +3,16 @@ package parking_lot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Attendant {
+class Attendant {
+    public boolean isNotifiedForThresholdLimit;
     private List<ParkingLot> availableParkingLots;
     private List<ParkingLot> unAvailableParkingLots;
-    private Display display;
+    private Assistant assistant;
 
-    Attendant(Display display) {
-        this.display = display;
+    Attendant(Assistant assistant) {
         this.availableParkingLots = new ArrayList<>();
         this.unAvailableParkingLots = new ArrayList<>();
+        this.assistant = assistant;
     }
 
     void addParkingLot(ParkingLot parkingLot) {
@@ -31,8 +32,10 @@ public class Attendant {
     }
 
     void updateDisplay(String name, int noOfCars) {
-        display.update(name, noOfCars);
+        this.assistant.updateDisplay(name, noOfCars);
     }
 
-
+    void notifyForLessCars(ParkingLot parkingLot) {
+        System.out.println(parkingLot + "has less than 20% of cars");
+    }
 }
