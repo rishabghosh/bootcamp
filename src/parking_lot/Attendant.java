@@ -4,26 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Attendant {
-    private List<ParkingLot> parkingLots;
     private List<ParkingLot> availableParkingLots;
+    private List<ParkingLot> unAvailableParkingLots;
+    private Display display;
 
-    Attendant() {
-        this.parkingLots = new ArrayList<>();
+    Attendant(Display display) {
+        this.display = display;
         this.availableParkingLots = new ArrayList<>();
+        this.unAvailableParkingLots = new ArrayList<>();
     }
 
-    public void addParkingLot(ParkingLot parkingLot) {
-        this.parkingLots.add(parkingLot);
+    void addParkingLot(ParkingLot parkingLot) {
         this.availableParkingLots.add(parkingLot);
     }
 
     void notifyWhenFull(ParkingLot parkingLot) {
         this.availableParkingLots.remove(parkingLot);
+        this.unAvailableParkingLots.add(parkingLot);
         System.out.println("Parking is full");
     }
 
     void notifyWhenAvailable(ParkingLot parkingLot) {
         this.availableParkingLots.add(parkingLot);
+        this.unAvailableParkingLots.remove(parkingLot);
         System.out.println("Parking is available");
     }
+
+    void updateDisplay(String name, int noOfCars) {
+        display.update(name, noOfCars);
+    }
+
+
 }

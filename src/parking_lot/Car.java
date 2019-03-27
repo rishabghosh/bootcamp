@@ -7,7 +7,7 @@ class Car {
         this.id = id;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 }
